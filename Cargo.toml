@@ -1,0 +1,19 @@
+[package]
+name = "hello-rust"
+version = "0.1.0"
+authors = ["adamgj <adam@modsrus.com>"]
+edition = "2018"
+build = "build.rs"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+gl = "0.14.0"
+
+[dependencies.sdl2]
+version = "0.34.3"
+features = ["bundled", "static-link"]
+
+[dependencies.num]
+version = "0.3"
+default-features = false
