@@ -1,0 +1,28 @@
+dependencies:
+- packagage.json
+- yarn.lock
+- npm-srhinkwrap.json
+- package-lock.json
+- pom.xml
+- Cargo.toml
+- Cargo.lock
+
+changelog:
+- CHANGELOG.md
+- CHANGELOG.markdown
+- CHANGES.md
+
+docker:
+- Dockerfile
+- docker-compose.yml
+
+documentation: "*.+(md|markdown)"
+
+javascript: "*.js"
+
+rust: "*.rs"
+
+cpp: "*.cpp"
+
+workflow: ".github/workflows/*.yml"
+

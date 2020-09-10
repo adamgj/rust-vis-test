@@ -4,6 +4,11 @@ on:
   push:
     branches: [ master ]
   pull_request:
+    paths:
+      - '*.rs'
+      - '*.toml'
+      - 'Cargo.lock'
+      - 'src/'
 
 env:
   CARGO_TERM_COLOR: always
