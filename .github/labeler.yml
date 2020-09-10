@@ -24,3 +24,5 @@ rust: "*.rs"
 
 cpp: "*.cpp"
 
+workflow: ".github/workflows/*.yml"
+
