@@ -8,8 +8,8 @@ pub enum Axis {
 
 const ERR_2D_UNSUPP_AXIS: &str = "Unsupported Axis. 2D supports X and Y.";
 
-pub trait TValue: PartialEq + PartialOrd + std::ops::MulAssign + Copy + Clone + num::Num + num::NumCast + num::One + num::Zero + num::Signed {}
-impl<T> TValue for T where T: PartialEq + PartialOrd + std::ops::MulAssign + Copy + Clone + num::Num + num::NumCast + num::One + num::Zero + num::Signed {}
+pub trait TValue: PartialEq + PartialOrd + Copy + Clone + num::Num + num::NumCast + num::One + num::Zero + num::Signed {}
+impl<T> TValue for T where T: PartialEq + PartialOrd + Copy + Clone + num::Num + num::NumCast + num::One + num::Zero + num::Signed {}
 
 
 pub trait TCoordinate<T>
@@ -53,21 +53,21 @@ pub struct SPoint3D<T> where T: TValue {
     z: T,
 }
 
-impl<T> std::ops::MulAssign<T> for SPoint3D<T> where T: TValue {
-    fn mul_assign(&mut self, rhs: T) {
-        self.x = self.x.mul(rhs);
-        self.y = self.y.mul(rhs);
-        self.z = self.z.mul(rhs);
-    }
-}
+// impl<T> std::ops::MulAssign<T> for SPoint3D<T> where T: TValue {
+//     fn mul_assign(&mut self, rhs: T) {
+//         self.x = self.x.mul(rhs);
+//         self.y = self.y.mul(rhs);
+//         self.z = self.z.mul(rhs);
+//     }
+// }
 
-impl<T> std::ops::MulAssign for SPoint3D<T> where T: TValue {
-    fn mul_assign(&mut self, rhs: SPoint3D<T>) {
-        self.x = self.x.mul(rhs.x);
-        self.y = self.y.mul(rhs.y);
-        self.z = self.z.mul(rhs.z);
-    }
-}
+// impl<T> std::ops::MulAssign for SPoint3D<T> where T: TValue {
+//     fn mul_assign(&mut self, rhs: SPoint3D<T>) {
+//         self.x = self.x.mul(rhs.x);
+//         self.y = self.y.mul(rhs.y);
+//         self.z = self.z.mul(rhs.z);
+//     }
+// }
 
 impl<T> TTransformable<T> for SPoint3D<T> where T: TValue {
     fn shift<U>(&mut self, coord: &U)
@@ -92,17 +92,17 @@ impl<T> TTransformable<T> for SPoint3D<T> where T: TValue {
     }
 
     fn reflect(&mut self) {
-        // self.x *= -1;
-        // self.y *= -1;
-        // self.z *= -1;
+        self.x = self.x.mul(T::one().neg());
+        self.y = self.y.mul(T::one().neg());
+        self.z = self.z.mul(T::one().neg());
     }
 
     fn reflect_axis(&mut self, axis: Axis) {
-        // match axis {
-        //     Axis::X => self.x *= -1,
-        //     Axis::Y => self.y *= -1,
-        //     Axis::Z => self.z *= -1,
-        // }
+        match axis {
+            Axis::X => self.x = self.x.mul(T::one().neg()),
+            Axis::Y => self.y = self.y.mul(T::one().neg()),
+            Axis::Z => self.z = self.z.mul(T::one().neg()),
+        }
     }
 }
 
@@ -206,12 +206,12 @@ where T: TValue {
 //         let a1 = b.y - a.y;
 //         let b1 = a.x - b.x;
 //         let c1 = a1 * (a.x) + b1 * (a.y);
-  
-//         // Line CD represented as a2x + b2y = c2  
+
+//         // Line CD represented as a2x + b2y = c2
 //         let a2 = d.y - c.y;
 //         let b2 = c.x - d.x;
 //         let c2 = a2 * (c.x) + b2 * (c.y);
-  
+
 //         let determinant = a1 * b2 - a2 * b1;
 
 //         if determinant == 0 {
@@ -240,12 +240,12 @@ where T: TValue {
 //         let a1 = b.y - a.y;
 //         let b1 = a.x - b.x;
 //         let c1 = a1 * (a.x) + b1 * (a.y);
-  
-//         // Line CD represented as a2x + b2y = c2  
+
+//         // Line CD represented as a2x + b2y = c2
 //         let a2 = d.y - c.y;
 //         let b2 = c.x - d.x;
 //         let c2 = a2 * (c.x) + b2 * (c.y);
-  
+
 //         let determinant = a1 * b2 - a2 * b1;
 
 //         if determinant == 0 {
